@@ -1,0 +1,45 @@
+--Introduction--
+This project seeks to provide an introduction to core concepts in genetics, 
+evolution, and programming. The material makes no assumptions regarding the 
+hypothetical students knowledge of evolution, taking an approach of 'show' 
+rather than 'tell'. A basic understanding of ecology and statistics may 
+enhance one's appreciation of the subject.
+
+Regarding experience with computers and programming, some basic skills and 
+tools are required. One should have Python 2.7 installed, have a good text 
+editor, and be able to type instructions in a terminal. For Linux and Mac, 
+gedit is one of many good text editing options for beginners, and for Windows 
+I recommend Notepad++. Linux and Mac users should know how to open Terminal, 
+and Windows users should know how to open Command Prompt. There are a few ways 
+to run python programs, and one should familiarize oneself with how to supply 
+arguments to a commandline program. A commandline example:
+
+'python run_sim.py --popsize 128'
+
+In this instance, "--popsize 128" tells the program from the start to use 128 
+as the value for the population size in the simulation.
+
+Each exercise should provide one with the needed cues to begin examining the 
+code for important details and how to run the code (see each README.txt). 
+Depending on ones experience, some parts of the code may be slightly complex. 
+Comments in the code are provided to help guide one through what tasks are 
+being accomplished. Each exercise should come with a set of questions to help 
+highlight critical concepts.
+
+
+
+--Acknowledgments--
+This project was sparked by a post by Christopher Gilbert at MotomaSTYLE:
+
+http://motomastyle.com/genetic-programming-the-python-way-the-basics/
+
+which was a Python implementation of Chris Eigner's Genetic Programming 101 
+in Ruby:
+
+http://eignerchris.tumblr.com/post/428590094/genetic-programming-101-ruby
+
+I owe them thanks for their work which prompted me along into genetic 
+programming and for some inspiration of my own code. I hope that my own work 
+might do the same for others.
+
+- Pablo -
