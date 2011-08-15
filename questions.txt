@@ -1,0 +1,29 @@
+What is the default population size? Does it ever change during the simulation?
+
+How many generations did it take until you got a maximally fit flower?
+
+What methods does the Flower class have? How many "traits" does a flower have?
+
+What fraction of the population is allowed to mate each year?
+
+In this simulation, are flowers allowed to mate with themselves? How would you 
+change this?
+
+How does a flower's fitness affect its ability to mate? Does a higher fitness 
+make a difference amongst those selected as the "most fit" in a generation?
+
+How would you change the code to make the survival selection more severe? What 
+impact might this have?
+
+How would you change the code to make mutations more frequent? What impact 
+might this have?
+
+If the population size were very small, (less than 10), what kinds of results
+might you expect?
+
+What features of this process are essential to allowing the population to 
+increase in fitness?
+
+Modify the code to print average fitness for each generation.
+
+Modify the code so that the starting population is smaller than the maximum.
