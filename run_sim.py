@@ -6,50 +6,46 @@ import sys
 from Flower import Flower #Code for a flower, in Flower.py
 from random import randint #A method for creating random integers
 
-def run_sim(pop_size, max_fit, selection, output = sys.stdout, style = 'verbose'):
-    population = [] #Create a list to hold the elements of the population
-    for i in range(pop_size): #Fill the list with flowers
-        population.append(Flower())
+def run_sim(pop_size, max_fit, selection, runs = 1, output = sys.stdout, style = 'verbose'):
+    for run in range(runs):
+        population = [] #Create a list to hold the elements of the population
+        for i in range(pop_size): #Fill the list with flowers
+            population.append(Flower())
 
-    generation = 0
-    maxreached = False
-    while not maxreached:
-        #Sort the population by individual fitness
-        population.sort(reverse = True, key = lambda Flower: Flower.fitness)
-        
-        mostfit = population[:int(pop_size / selection)]
-        if style == 'verbose':
-            output.write('GENERATION {0} - Top Fitness: {1}\n'.format(generation, 
-                                                                      mostfit[0].fitness))
-        elif style == 'csv':
-            pass
-        
-        if mostfit[0].fitness >= max_fit: #Check for threshold fitness
-            maxreached = True #Escape the while loop conditions to end the program
-            if style == 'verbose':
-                output.write('Maximum Fitness Achieved!\n')
-            elif style == 'csv':
-                output.write(str(generation))
-                output.write(',')
-
-        
-        if not maxreached:
-            population = [] #Empty the population list to start over
-            for i in range(pop_size): #Re-populate from the most fit flowers
-                #Randomly pick two parents from the most fit population
-                firstparent = mostfit[randint(0,len(mostfit)-1)]
-                secondparent = mostfit[randint(0,len(mostfit)-1)]
-                
-                #Mate the two parents to create a child flower for the next generation
-                population.append(firstparent.mate(secondparent))
+        generation = 0
+        maxreached = False
+        while not maxreached:
+            #Sort the population by individual fitness
+            population.sort(reverse = True, key = lambda Flower: Flower.fitness)
             
-            generation += 1 #Increase the generation counter by one
+            mostfit = population[:int(pop_size / selection)]
+            if style == 'verbose':
+                output.write('GENERATION {0} - Top Fitness: {1}\n'.format(generation, 
+                                                                          mostfit[0].fitness))
+            elif style == 'csv':
+                pass
+            
+            if mostfit[0].fitness >= max_fit: #Check for threshold fitness
+                maxreached = True #Escape the while loop conditions to end the program
+                if style == 'verbose':
+                    output.write('Maximum Fitness Achieved!\n')
+                elif style == 'csv':
+                    output.write(str(generation))
+                    output.write(',')
 
-def run_many(runs, pop_size, max_fit, selection, output):
-    run = 0
-    while run < runs:
-        run_sim(pop_size, max_fit, selection, output, style = 'csv')
-        run += 1
+            
+            if not maxreached:
+                population = [] #Empty the population list to start over
+                for i in range(pop_size): #Re-populate from the most fit flowers
+                    #Randomly pick two parents from the most fit population
+                    firstparent = mostfit[randint(0,len(mostfit)-1)]
+                    secondparent = mostfit[randint(0,len(mostfit)-1)]
+                    
+                    #Mate the two parents to create a child flower for the next generation
+                    population.append(firstparent.mate(secondparent))
+                
+                generation += 1 #Increase the generation counter by one
+                
         if not run % 1000:
             output.write('\n')
 
@@ -79,26 +75,14 @@ def main():
         else:
             args.output = 'stdout'
     
-    if(RUNS):
-        if args.output == 'stdout':
-            with sys.stdout as OUT:
-                run_many(RUNS, POPSIZE, MAXFIT, SELECTION, OUT)
-        elif args.output[-4:] == '.csv':
-            with open(args.output, 'w') as OUT:
-                run_many(RUNS, POPSIZE, MAXFIT, SELECTION, OUT)
-        else:
-            with open(args.output + '.csv', 'w') as OUT:
-                run_many(RUNS, POPSIZE, MAXFIT, SELECTION, OUT)
+    if args.output == 'stdout':
+        run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, sys.stdout)
+    elif args.output[-4:] == '.csv':
+        with open(args.output, 'w') as outfile:
+            run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, outfile)
     else:
-        if args.output == 'stdout':
-            with sys.stdout as OUT:
-                run_sim(POPSIZE, MAXFIT, SELECTION, OUT)
-        elif args.output[-4:] == '.csv':
-            with open(args.output, 'w') as OUT:
-                run_sim(POPSIZE, MAXFIT, SELECTION, OUT)
-        else:
-            with open(args.output + '.csv', 'w') as OUT:
-                run_sim(POPSIZE, MAXFIT, SELECTION, OUT)
+        with open(args.output + '.csv', 'w') as outfile:
+            run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, outfile)
 
 if __name__ == '__main__':
     main()
