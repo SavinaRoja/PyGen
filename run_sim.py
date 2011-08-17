@@ -4,7 +4,7 @@ import argparse
 import sys
 
 from Flower import Flower #Code for a flower, in Flower.py
-from random import randint #A method for creating random integers
+from random import randint #A rmethod for creating random integers
 
 def run_sim(pop_size, max_fit, selection, runs = 1, output = sys.stdout, style = 'verbose'):
     for run in range(runs):
@@ -64,25 +64,25 @@ def main():
                         help = 'Choose filename for CSV output. Or enter "stdout".')
     args = parser.parse_args()
     
-    RUNS = args.batch #Number of runs to use for batch mode
-    POPSIZE = args.popsize #The size of the flower population
-    MAXFIT = args.fitness #Set the fitness threshold
-    SELECTION = args.selection #Selection stringency factor
+    batchruns = args.batch #Number of runs to use for batch mode
+    popsize = args.popsize #The size of the flower population
+    maxfit = args.fitness #Set the fitness threshold
+    selection = args.selection #Selection stringency factor
     
     if not args.output:
-        if RUNS:
+        if batchruns:
             args.output = 'batch_output.csv'
         else:
             args.output = 'stdout'
     
     if args.output == 'stdout':
-        run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, sys.stdout)
+        run_sim(popsize, maxfit, selection, output = sys.stdout)
     elif args.output[-4:] == '.csv':
         with open(args.output, 'w') as outfile:
-            run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, outfile)
+            run_sim(popsize, maxfit, selection, output = outfile)
     else:
         with open(args.output + '.csv', 'w') as outfile:
-            run_sim(RUNS, POPSIZE, MAXFIT, SELECTION, outfile)
+            run_sim(popsize, maxfit, selection, output = outfile)
 
 if __name__ == '__main__':
     main()
