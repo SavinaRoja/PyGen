@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+import os.path
 
 from Flower import Flower #Code for a flower, in Flower.py
 from random import randint #A rmethod for creating random integers
@@ -46,7 +47,7 @@ def run_sim(pop_size, max_fit, selection, runs = 1, output = sys.stdout, style =
                 
                 generation += 1 #Increase the generation counter by one
                 
-        if not run % 1000:
+        if not run % 1000 and run != 0:
             output.write('\n')
 
 def main():
@@ -61,7 +62,12 @@ def main():
     parser.add_argument('-s', '--selection', action = 'store', type = float, default = 2,
                         help = 'Set the population size divisor for selection')
     parser.add_argument('-o', '--output', action = 'store',
-                        help = 'Choose filename for CSV output. Or enter "stdout".')
+                        help = 'Choose filename for CSV output. Or enter "stdout"')
+    style_group = parser.add_mutually_exclusive_group()
+    style_group.add_argument('-v', '--verbose', const = 'verbose', action = 'store_const', default = False,
+                        help = 'Overrides output to be verbose, ie. information from each generation')
+    style_group.add_argument('-c', '--csv', const = 'csv', action = 'store_const', default = False,
+                        help = 'Overrides output to csv format, ie. information after each run')
     args = parser.parse_args()
     
     batchruns = args.batch #Number of runs to use for batch mode
@@ -76,13 +82,26 @@ def main():
             args.output = 'stdout'
     
     if args.output == 'stdout':
-        run_sim(popsize, maxfit, selection, output = sys.stdout)
-    elif args.output[-4:] == '.csv':
-        with open(args.output, 'w') as outfile:
-            run_sim(popsize, maxfit, selection, output = outfile)
+        if args.csv:
+            outstyle = args.csv
+        else:
+            outstyle = 'verbose'
+        if not batchruns:
+            batchruns = 1
+        run_sim(popsize, maxfit, selection, output = sys.stdout, runs = batchruns, style = outstyle)
+    
     else:
-        with open(args.output + '.csv', 'w') as outfile:
-            run_sim(popsize, maxfit, selection, output = outfile)
+        if args.verbose:
+            outstyle = args.verbose
+        else:
+            outstyle = 'csv'
+        outstring = args.output
+        if not os.path.splitext(args.output)[1] == '.csv':
+            outstring += '.csv'
+        if not batchruns:
+            batchruns = 1
+        with open(outstring, 'w') as outfile:
+            run_sim(popsize, maxfit, selection, output = outfile, runs = batchruns, style = outstyle)
 
 if __name__ == '__main__':
     main()
